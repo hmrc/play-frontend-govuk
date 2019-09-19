@@ -16,14 +16,17 @@
 
 package uk.gov.hmrc.govukfrontend.views
 
+import org.scalacheck.Arbitrary._
 import org.scalacheck.{Gen, ShrinkLowPriority}
 import org.scalatest.{Matchers, WordSpec}
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.data.FormError
 import play.twirl.api.{Html, HtmlFormat}
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.common.HtmlContent
+import uk.gov.hmrc.govukfrontend.views.viewmodels.Generators._
+import uk.gov.hmrc.govukfrontend.views.viewmodels.common.{Content, HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorLink
+import scala.collection.immutable
 
 class ImplicitsSpec
     extends WordSpec
@@ -32,26 +35,40 @@ class ImplicitsSpec
     with ScalaCheckPropertyChecks
     with ShrinkLowPriority {
 
-  "asErrorLinks" should {
-    val errors = Seq(
-      FormError(key = "k1", message = "m1"),
-      FormError(key = "k2", message = "m2")
-    )
+  implicit override val generatorDrivenConfig: PropertyCheckConfiguration =
+    PropertyCheckConfiguration(minSuccessful = 50)
 
-    "convert FormErrors to ErrorLinks" in {
-      errors.asErrorLinks should contain theSameElementsAs (
-        Seq(
-          ErrorLink(href = Some(errors(0).key), content = HtmlContent(messages(errors(0).message, errors(0).args: _*))),
-          ErrorLink(href = Some(errors(1).key), content = HtmlContent(messages(errors(1).message, errors(1).args: _*)))
-        )
-      )
+  "asErrorLinks" should {
+    "convert FormErrors to ErrorLinks of the appropriate type" in {
+
+      forAll(genFormErrors) {
+        case (errors, contentConstructor) =>
+          errors.asErrorLinks(contentConstructor).zipWithIndex.foreach {
+            case (errorLink, i) =>
+              errorLink shouldBe ErrorLink(
+                href    = Some(errors(i).key),
+                content = contentConstructor(messages(errors(i).message, errors(i).args: _*)))
+          }
+      }
+
+      lazy val genFormError: Gen[FormError] = for {
+        key       <- genNonEmptyAlphaStr
+        nMessages <- Gen.chooseNum(1, 5)
+        messages  <- Gen.listOfN(nMessages, genNonEmptyAlphaStr)
+        nArgs     <- Gen.chooseNum(1, 5)
+        args      <- Gen.listOfN(nArgs, genNonEmptyAlphaStr)
+      } yield FormError(key = key, messages = messages, args = args)
+
+      lazy val genFormErrors: Gen[(immutable.Seq[FormError], String => Content)] = for {
+        contentConstructor <- Gen.oneOf(Gen.const(HtmlContent.apply(_: String)), Gen.const(Text.apply _))
+        n                  <- Gen.chooseNum(1, 5)
+        errors             <- Gen.listOfN(n, genFormError).map(_.toSeq)
+      } yield (errors, contentConstructor)
     }
   }
 
   "padLeft" should {
     "add left padding to non-empty HTML" in {
-
-      val htmlGen: Gen[Html] = Gen.alphaStr.map(Html(_))
 
       forAll(htmlGen, Gen.chooseNum(0, 5)) { (html, padCount) =>
         (html, padCount) match {
@@ -61,6 +78,8 @@ class ImplicitsSpec
         }
       }
 
+      lazy val htmlGen: Gen[Html] = Gen.alphaStr.map(Html(_))
+
       object HtmlExtractor {
         def unapply(html: Html): Option[String] =
           Some(html.body)
@@ -69,4 +88,47 @@ class ImplicitsSpec
     }
   }
 
+  // prove the property:
+  // indent(n) = indent(n-1).indent(1) if n >=0
+  // indent(n) = indent(n+1).indent(-1) if n < 0
+  "indent(n, _)" should {
+    "be the same as indent(signum(n) * (abs(n)-1), _).indent(signum(n) * 1, _)" in {
+      forAll(genIndentArgs) {
+        case (s, n, indentFirstLine) =>
+          s.indent(n, indentFirstLine) shouldBe s
+            .indent(math.signum(n) * (math.abs(n) - 1), indentFirstLine)
+            .indent(math.signum(n) * 1, indentFirstLine)
+      }
+
+      /**
+        * Generate indentation arguments for [[uk.gov.hmrc.govukfrontend.views.Implicits.RichString.indent(int, boolean)]]
+        */
+      lazy val genIndentArgs: Gen[(String, Int, Boolean)] =
+        for {
+          // generate text to indent with a maximum of 8 lines
+          nLines <- Gen.choose(0, 8)
+          maxInitialIndentation = 10
+          // Initial indentation for each line in the generated string: generate small indentations less often so we can test unindent more often
+          initialIndentations <- Gen.listOfN(nLines, Gen.frequency((10, Gen.oneOf(0 to 3)), (90, Gen.oneOf(4 to 10))))
+          // indentation for each line
+          paddings = initialIndentations.map(" " * _)
+          // maxIndentation > initialIndentation so we cover cases where we try to unindent (negative n) beyond the left margin
+          maxIndentation = maxInitialIndentation + 1
+          n <- Gen.chooseNum(-maxIndentation, maxIndentation)
+          // Generate lines interspersed with blank space lines
+          lineGen  = Gen.frequency((70, Gen.alphaStr), (30, Gen.const(" ")))
+          padLines = (lines: Seq[String]) => paddings.zip(lines).map { case (padding, s) => padding + s }
+          str <- Gen.frequency(
+                  (
+                    90,
+                    Gen
+                      .listOfN(nLines, lineGen)
+                      .map(padLines)
+                      .map(_.mkString("\n"))),
+                  (10, Gen.const(""))
+                )
+          indentFirstLine <- arbBool.arbitrary
+        } yield (str, n, indentFirstLine)
+    }
+  }
 }
