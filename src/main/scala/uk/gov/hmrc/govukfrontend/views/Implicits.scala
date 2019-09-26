@@ -19,7 +19,7 @@ package uk.gov.hmrc.govukfrontend.views
 import play.api.data.FormError
 import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}
-import uk.gov.hmrc.govukfrontend.views.viewmodels.common.Text
+import uk.gov.hmrc.govukfrontend.views.viewmodels.common.{HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessageParams
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorLink
 
@@ -54,16 +54,33 @@ trait Implicits {
 
     def asErrorLinks: Seq[ErrorLink] =
       formErrors.map { error =>
-        ErrorLink(href = Some(s"#${error.key}"), content = Text(messages(error.message, error.args: _*)))
+        ErrorLink(href = Some(s"#${error.key}"), content = Text(errorMessage(error)))
       }
 
-    def asErrorMessages: Seq[ErrorMessageParams] =
-      formErrors
-        .map(error => ErrorMessageParams(content = Text(messages(error.message, error.args: _*))))
+    def asErrorLinks(isContentHtml: Boolean): Seq[ErrorLink] =
+      if (isContentHtml)
+        formErrors.map { error =>
+          ErrorLink(href = Some(s"#${error.key}"), content = HtmlContent(errorMessage(error)))
+        } else asErrorLinks
 
-    def asErrorMessage(messageSelector: String): Option[ErrorMessageParams] =
+    def asErrorMessages: Seq[ErrorMessageParams] =
+      formErrors.map(error => ErrorMessageParams(content = Text(errorMessage(error))))
+
+    def asErrorMessages(isContentHtml: Boolean): Seq[ErrorMessageParams] =
+      if (isContentHtml)
+        formErrors.map(error => ErrorMessageParams(content = HtmlContent(errorMessage(error))))
+      else asErrorMessages
+
+    def asErrorMessage(messageSelector: String, isContentHtml: Boolean = false): Option[ErrorMessageParams] =
       formErrors
         .find(_.message == messageSelector)
-        .map(error => ErrorMessageParams(content = Text(messages(error.message, error.args: _*))))
+        .map(
+          error =>
+            if (isContentHtml)
+              ErrorMessageParams(content = HtmlContent(errorMessage(error)))
+            else
+              ErrorMessageParams(content = Text(errorMessage(error))))
+
+    private def errorMessage(error: FormError) = messages(error.message, error.args: _*)
   }
 }

@@ -22,7 +22,7 @@ import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.data.FormError
 import play.twirl.api.{Html, HtmlFormat}
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.common.Text
+import uk.gov.hmrc.govukfrontend.views.viewmodels.common.{HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessageParams
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorLink
 
@@ -35,12 +35,12 @@ class ImplicitsSpec
 
   "Form errors" should {
 
-    val errors =
-      Seq(FormError("field1", "error.invalid"), FormError("field2", "error.missing"))
+    val errorsText = Seq(FormError("field1", "error.invalid"), FormError("field2", "error.missing"))
+    val errorsHtml = Seq(FormError("field1", "error.seeExplanation"))
 
-    "be transformed to error links" in {
+    "be transformed to error links with Text content" in {
 
-      errors.asErrorLinks should contain theSameElementsAs (
+      errorsText.asErrorLinks should contain theSameElementsAs (
         Seq(
           ErrorLink(href = Some("#field1"), content  = Text("Invalid input received")),
           ErrorLink(href = Some(s"#field2"), content = Text("Input missing"))
@@ -48,9 +48,18 @@ class ImplicitsSpec
       )
     }
 
-    "be transformed to error messages" in {
+    "be transformed to error links with Html Content" in {
 
-      errors.asErrorMessages should contain theSameElementsAs (
+      errorsHtml.asErrorLinks(isContentHtml = true) should contain theSameElementsAs (
+        Seq(
+          ErrorLink(href = Some(s"#field1"), content = HtmlContent("<b>This is utterly unacceptable<b>"))
+        )
+      )
+    }
+
+    "be transformed to error messages with Text content" in {
+
+      errorsText.asErrorMessages should contain theSameElementsAs (
         Seq(
           ErrorMessageParams(content = Text("Invalid input received")),
           ErrorMessageParams(content = Text("Input missing"))
@@ -58,9 +67,24 @@ class ImplicitsSpec
       )
     }
 
-    "be transformed to error messages matching selection criteria" in {
+    "be transformed to error messages with Html content" in {
 
-      errors.asErrorMessage("error.missing").get shouldBe ErrorMessageParams(content = Text("Input missing"))
+      errorsHtml.asErrorMessages(isContentHtml = true) should contain theSameElementsAs (
+        Seq(
+          ErrorMessageParams(content = HtmlContent("<b>This is utterly unacceptable<b>"))
+        )
+      )
+    }
+
+    "be transformed to error messages matching selection criteria with Text content" in {
+
+      errorsText.asErrorMessage("error.missing").get shouldBe ErrorMessageParams(content = Text("Input missing"))
+    }
+
+    "be transformed to error messages matching selection criteria with Html content" in {
+
+      errorsHtml.asErrorMessage("error.seeExplanation", isContentHtml = true).get shouldBe
+        ErrorMessageParams(content = HtmlContent("<b>This is utterly unacceptable<b>"))
     }
   }
 

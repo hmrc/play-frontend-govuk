@@ -21,5 +21,8 @@ import play.api.test.Helpers
 
 trait MessagesHelpers {
   implicit val messages: Messages = Helpers.stubMessages(Helpers.stubMessagesApi(
-    messages = Map("default" -> Map("error.invalid" -> "Invalid input received", "error.missing" -> "Input missing"))))
+    messages = Map(
+      "default" -> Map("error.invalid" -> "Invalid input received",
+      "error.seeExplanation" -> "<b>This is utterly unacceptable<b>",
+      "error.missing" -> "Input missing"))))
 }
