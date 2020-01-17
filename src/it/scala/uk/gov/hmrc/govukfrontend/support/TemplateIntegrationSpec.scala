@@ -13,13 +13,13 @@ import uk.gov.hmrc.govukfrontend.views.{JsoupHelpers, PreProcessor, TemplateVali
 import scala.util.{Failure, Success}
 
 /**
-  * Base class for integration testing a Twirl template against the Nunjucks template rendering service
+  * Base class for integration testing a Twirl template against the Nunjucks template from x-govuk-component-renderer
   *
   * @tparam T Type representing the input parameters of the Twirl template
   */
 abstract class TemplateIntegrationSpec[T: OWrites: Arbitrary](govukComponentName: String, seed: Option[String] = None)
     extends Properties(govukComponentName)
-    with TemplateServiceClient
+    with ComponentRendererClient
     with PreProcessor
     with TwirlRenderer[T]
     with ShrinkLowPriority

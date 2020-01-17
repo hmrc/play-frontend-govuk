@@ -8,16 +8,16 @@ import play.api.libs.ws.{WSClient, WSResponse}
 import uk.gov.hmrc.govukfrontend.views.GovukFrontendDependency.govukFrontendVersion
 import scala.concurrent.Future
 
-trait TemplateServiceClient extends WordSpecLike with WSScalaTestClient with GuiceOneAppPerSuite {
+trait ComponentRendererClient extends WordSpecLike with WSScalaTestClient with GuiceOneAppPerSuite {
 
   implicit val portNumber: PortNumber = PortNumber(3000)
 
   implicit lazy val wsClient: WSClient = app.injector.instanceOf[WSClient]
 
   /**
-    * Render a govuk-frontend component using the template service
+    * Render a govuk-frontend component using x-govuk-component-renderer
     *
-    * @param govukComponentName the govuk-frontend component name as documented in the template service
+    * @param govukComponentName the govuk-frontend component name as documented in x-govuk-component-renderer
     * @param templateParams
     * @return [[WSResponse]] with the rendered component
     */
