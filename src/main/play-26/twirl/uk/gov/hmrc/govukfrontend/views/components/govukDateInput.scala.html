@@ -82,7 +82,7 @@
           id = item.id.getNonEmptyOrElse(id.getNonEmptyOrElse("") + "-" + item.name),
           name = namePrefix.foldNonEmpty(item.name)(_ + "-" + item.name),
           inputType = "text",
-          inputmode = "numeric",
+          inputmode = Some("numeric"),
           value = item.value,
           label =
             Label(
