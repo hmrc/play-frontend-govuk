@@ -7,5 +7,5 @@ object PlayCrossCompilation extends AbstractPlayCrossCompilation(defaultPlayVers
     case Play26 => "2.6.23"
   }
 
-  val sbtPlayCrossCompilationVersion = "0.17.0"
+  val sbtPlayCrossCompilationVersion = "test-fixtures-3.5.0.17.test-fixtures-3.5.0"
 }

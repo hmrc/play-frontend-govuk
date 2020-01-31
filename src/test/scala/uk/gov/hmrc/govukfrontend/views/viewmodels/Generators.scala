@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ object Generators {
 
   /**
     * Generates an alphabetic String with adjustable empty frequency String.
-    * @param emptyFreq as a percentage (0 - 100)
+    * @param emptyFreq as a percentage (test-fixtures-3.5.0 - 100)
     * @return
     */
   def genAlphaStr(emptyFreq: Int = 25): Gen[String] =

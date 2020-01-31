@@ -1,5 +1,5 @@
 @*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,7 +81,8 @@
         @govukInput(Input(
           id = item.id.getNonEmptyOrElse(id.getNonEmptyOrElse("") + "-" + item.name),
           name = namePrefix.foldNonEmpty(item.name)(_ + "-" + item.name),
-          inputType = "number",
+          inputType = "text",
+          inputmode = "numeric",
           value = item.value,
           label =
             Label(

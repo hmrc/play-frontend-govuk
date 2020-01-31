@@ -68,7 +68,7 @@ $govuk-assets-path: "/play-mtp-twirl-frontend/assets/lib/govuk-frontend/govuk/as
     pageTitle = pageTitle,
     headBlock = Some(head()),
     beforeContentBlock = beforeContentBlock,
-    footerItems = Seq(FooterItem(href = Some("https://govuk-prototype-kit.herokuapp.com/"), text = Some("GOV.UK Prototype Kit v9.1.0"))),
+    footerItems = Seq(FooterItem(href = Some("https://govuk-prototype-kit.herokuapp.com/"), text = Some(test-fixtures-3.5.0))),
     bodyEndBlock = Some(scripts()))(contentBlock)
 ```
 

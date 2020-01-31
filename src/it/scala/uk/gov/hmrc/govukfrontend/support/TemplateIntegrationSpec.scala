@@ -43,7 +43,7 @@ abstract class TemplateIntegrationSpec[T: OWrites: Arbitrary](govukComponentName
   /* This is just an idea for a reporter that would look at the counts instead of rounded frequencies.
 
   // Due to rounding in [[org.scalacheck.util.Pretty.prettyFreqMap]] the console reporter shows some
-  // frequencies collected from the classifiers as 0% when they are not zero.
+  // frequencies collected from the classifiers as test-fixtures-3.5.0% when they are not zero.
   // This reporter looks for counts instead of ratios in the classifiers which can signal problems in the generator
   // and/or an insufficient number of test runs
   override def overrideParameters(p: Test.Parameters): Test.Parameters =
