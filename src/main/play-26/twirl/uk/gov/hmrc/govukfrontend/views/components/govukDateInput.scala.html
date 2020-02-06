@@ -81,7 +81,8 @@
         @govukInput(Input(
           id = item.id.getNonEmptyOrElse(id.getNonEmptyOrElse("") + "-" + item.name),
           name = namePrefix.foldNonEmpty(item.name)(_ + "-" + item.name),
-          inputType = "number",
+          inputType = "text",
+          inputmode = Some("numeric"),
           value = item.value,
           label =
             Label(
