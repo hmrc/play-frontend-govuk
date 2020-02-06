@@ -32,10 +32,11 @@
     errorMessage = errorMessage,
     formGroupClasses = formGroupClasses,
     classes = toClasses("govuk-js-character-count", errorMessage.fold("")(_ => " govuk-textarea--error"), if (classes.isEmpty) "" else s" ${classes}"),
-    attributes = attributes
+    attributes = attributes,
+    countMessageClasses = countMessageClasses
   ))
   <span id="@{id}-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
-    You can enter up to @maxLength.filter(_ > 0).orElse(maxWords).getOrElse("") @maxWords.filter(_ > 0).fold("characters")(_ => "words")
+    You can enter up to @maxLength.filter(_ > 0).orElse(maxWords).getOrElse("undefined") @maxWords.filter(_ > 0).fold("characters")(_ => "words")
   </span>
 </div>
 
