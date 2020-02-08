@@ -14,7 +14,8 @@
  * limitations under the License.
  *@
 
-@this(govukTextarea: govukTextarea)
+@this(govukTextarea: govukTextarea,
+      govukHint: govukHint)
 
 @(params: CharacterCount)
 @import params._
@@ -35,9 +36,11 @@
     attributes = attributes,
     countMessageClasses = countMessageClasses
   ))
-  <span id="@{id}-info" class="govuk-hint govuk-character-count__message" aria-live="polite">
-    You can enter up to @maxLength.filter(_ > 0).orElse(maxWords).getOrElse("undefined") @maxWords.filter(_ > 0).fold("characters")(_ => "words")
-  </span>
+  @govukHint(Hint(id=Some(id+"-info"),
+    classes = "govuk-character-count__message",
+    attributes = Map("aria-live"->"polite"),
+    content = Text("You can enter up to " + maxLength.filter(_ > 0).orElse(maxWords).getOrElse("undefined") + " " + maxWords.filter(_ > 0).fold("characters")(_ => "words"))
+  ))
 </div>
 
 @attrs = {
