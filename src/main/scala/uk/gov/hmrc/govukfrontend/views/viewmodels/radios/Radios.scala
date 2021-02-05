@@ -16,6 +16,8 @@
 
 package uk.gov.hmrc.govukfrontend.views.viewmodels.radios
 
+import play.api.data.Field
+import play.api.i18n.Messages
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
 import uk.gov.hmrc.govukfrontend.views.html.components._
@@ -33,6 +35,41 @@ case class Radios(
   attributes: Map[String, String]    = Map.empty)
 
 object Radios {
+
+  def fromField(field: Field,
+                legend: String,
+                radioItems: Seq[(String, String)],
+                hint: Option[String] = None,
+                formGroupClasses: Option[String] = None,
+                classes: Option[String] = None,
+                attributes: Map[String, String] = Map.empty)
+               (implicit messages: Messages): Radios = {
+
+    new Radios(
+      fieldset = Some(Fieldset(
+        legend = Some(Legend(
+          content = Text(legend)
+        ))
+      )),
+      hint = hint.map(hintText => Hint(content = Text(hintText))),
+      errorMessage = field.error.map(formError =>
+        ErrorMessage(content = Text(messages(formError.message, formError.args: _*)))
+      ),
+      formGroupClasses = formGroupClasses.getOrElse(""),
+      idPrefix = Some(field.name),
+      name = field.name,
+      items = radioItems map { radioItem =>
+        val (label, value) = radioItem
+        RadioItem(
+          content = Text(label),
+          checked = field.value.contains(value),
+          value = Some(value)
+        )
+      },
+      classes = classes.getOrElse(""),
+      attributes = attributes
+    )
+  }
 
   def defaultObject: Radios = Radios()
 
