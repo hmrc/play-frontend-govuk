@@ -23,4 +23,7 @@ trait Helpers {
   type FormWithCSRF = formWithCSRF
   @deprecated(message="Use DI", since="Play 2.6")
   lazy val FormWithCSRF = new formWithCSRF
+
+  val SimpleRadios = viewmodels.radios.SimpleRadios
+
 }

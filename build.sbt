@@ -2,7 +2,7 @@ import GenerateFixtures.generateFixtures
 import play.sbt.PlayImport.PlayKeys._
 import sbt.CrossVersion
 
-val libName = "play-frontend-govuk"
+val libName = "play-frontend-govuk-spike-3"
 val silencerVersion = "1.4.4"
 
 lazy val playDir = "play-26"
