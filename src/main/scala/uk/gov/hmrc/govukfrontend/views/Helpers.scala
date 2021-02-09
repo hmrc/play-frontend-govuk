@@ -16,11 +16,16 @@
 
 package uk.gov.hmrc.govukfrontend.views
 
-import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+import uk.gov.hmrc.govukfrontend.views.html.components.GovukRadios
+import uk.gov.hmrc.govukfrontend.views.html.helpers.{formWithCSRF, radiosWithField}
 
 trait Helpers {
 
   type FormWithCSRF = formWithCSRF
   @deprecated(message="Use DI", since="Play 2.6")
   lazy val FormWithCSRF = new formWithCSRF
+
+  type RadiosWithField = radiosWithField
+  @deprecated(message="Use DI", since="Play 2.6")
+  lazy val RadiosWithField = new radiosWithField(GovukRadios)
 }
