@@ -250,6 +250,7 @@ trait Implicits {
         .withName(field)
         .withId(field)
         .withErrorMessage(field)
+        .withValue(field)
     }
 
     private[views] def withName(field: Field): CharacterCount =
@@ -257,7 +258,7 @@ trait Implicits {
       else characterCount
 
     private[views] def withId(field: Field): CharacterCount =
-      if (characterCount.id == CharacterCount.defaultObject.id) characterCount.copy(id = Some(field.name))
+      if (characterCount.id == CharacterCount.defaultObject.id) characterCount.copy(id = field.name)
       else characterCount
 
     private[views] def withErrorMessage(field: Field): CharacterCount =
@@ -268,6 +269,10 @@ trait Implicits {
           )
         )
       } else characterCount
+
+    private[views] def withValue(field: Field): CharacterCount =
+      if (characterCount.value == CharacterCount.defaultObject.value) characterCount.copy(value = field.value)
+      else characterCount
   }
 
 }
