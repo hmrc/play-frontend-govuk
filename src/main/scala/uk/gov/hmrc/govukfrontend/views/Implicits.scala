@@ -19,6 +19,7 @@ package uk.gov.hmrc.govukfrontend.views
 import play.api.data.{Field, FormError}
 import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.charactercount.CharacterCount
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{Content, HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorLink
@@ -241,6 +242,34 @@ trait Implicits {
       else radioItem
     }
   }
+
+  implicit class RichCharacterCount(characterCount: CharacterCount)(implicit messages: Messages) {
+
+    def withFormField(field: Field): CharacterCount = {
+      characterCount
+        .withName(field)
+        .withId(field)
+        .withErrorMessage(field)
+    }
+
+    private[views] def withName(field: Field): CharacterCount =
+      if (characterCount.name == CharacterCount.defaultObject.name) characterCount.copy(name = field.name)
+      else characterCount
+
+    private[views] def withId(field: Field): CharacterCount =
+      if (characterCount.id == CharacterCount.defaultObject.id) characterCount.copy(id = Some(field.name))
+      else characterCount
+
+    private[views] def withErrorMessage(field: Field): CharacterCount =
+      if (characterCount.errorMessage == CharacterCount.defaultObject.errorMessage) {
+        characterCount.copy(
+          errorMessage = field.error.map(formError =>
+            ErrorMessage(content = Text(messages(formError.message, formError.args: _*)))
+          )
+        )
+      } else characterCount
+  }
+
 }
 
 object Implicits extends Implicits
