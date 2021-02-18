@@ -19,10 +19,15 @@ package uk.gov.hmrc.govukfrontend.views
 import play.api.data.{Field, FormError}
 import play.api.i18n.Messages
 import play.twirl.api.{Html, HtmlFormat}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.charactercount.CharacterCount
+import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.{CheckboxItem, Checkboxes}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{Content, HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorLink
+import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.select.{Select, SelectItem}
+import uk.gov.hmrc.govukfrontend.views.viewmodels.textarea.Textarea
 
 trait Implicits {
 
@@ -193,7 +198,7 @@ trait Implicits {
   }
 
 
-  implicit class RichRadios(radios: Radios)(implicit messages: Messages) {
+  implicit class RichRadios(radios: Radios)(implicit val messages: Messages) extends ImplicitsSupport[Radios] {
 
     /**
       * Extension method to allow a Play form Field to be used to add certain parameters in a Radios,
@@ -203,44 +208,181 @@ trait Implicits {
       * @param field
       * @param messages
       */
-    def withFormField(field: Field): Radios = {
+    override def withFormField(field: Field): Radios =
       radios
         .withErrorMessage(field)
-        .withIdPrefix(field)
+        .withId(field)
         .withName(field)
         .withItemsChecked(field)
-    }
 
-    private[views] def withErrorMessage(field: Field): Radios =
-      if (radios.errorMessage == Radios.defaultObject.errorMessage) {
-        radios.copy(
-          errorMessage = field.error.map(formError =>
-            ErrorMessage(content = Text(messages(formError.message, formError.args: _*)))
-          )
-        )
-      } else radios
+    override protected val currentT: Radios = radios
 
-    private[views] def withIdPrefix(field: Field): Radios =
-      if (radios.idPrefix == Radios.defaultObject.idPrefix) radios.copy(idPrefix = Some(field.name))
-      else radios
+    override protected def allowOverrideName: Boolean = radios.name == Radios.defaultObject.name
 
-    private[views] def withName(field: Field): Radios =
-      if (radios.name == Radios.defaultObject.name) radios.copy(name = field.name)
-      else radios
+    override protected def allowOverrideId: Boolean = radios.idPrefix == Radios.defaultObject.idPrefix
+
+    override protected def allowOverrideError: Boolean = radios.errorMessage == Radios.defaultObject.errorMessage
+
+    override protected def updateName: String => Radios = updatedName => radios.copy(name = updatedName)
+
+    override protected def updateId: String => Radios =
+      updatedId => radios.copy(idPrefix = Some(updatedId))
+
+    override protected def updateErrorMessage: ErrorMessage => Radios =
+      updatedErrorMessage => radios.copy(errorMessage = Some(updatedErrorMessage))
 
     private[views] def withItemsChecked(field: Field): Radios =
       radios.copy(
-        items = radios.items.map(radioItem => withItemChecked(radioItem, field))
+        items = radios.items.map { radioItem =>
+          if (radioItem.checked == RadioItem.defaultObject.checked) {
+            val isChecked = radioItem.value == field.value
+            radioItem.copy(checked = isChecked)
+          }
+          else radioItem
+        }
       )
 
-    private def withItemChecked(radioItem: RadioItem, field: Field): RadioItem = {
-      if (radioItem.checked == RadioItem.defaultObject.checked) {
-        val isChecked = radioItem.value == field.value
-        radioItem.copy(checked = isChecked)
-      }
-      else radioItem
-    }
+    override protected def allowOverrideValue: Boolean = false
+
+    override protected def updateValue: String => Radios =
+      _ => currentT
+  }
+
+  implicit class RichInput(input: Input)(implicit val messages: Messages) extends ImplicitsSupport[Input] {
+
+    /**
+      * Extension method to allow a Play form Field to be used to add certain parameters in an Input,
+      * specifically errorMessage, idPrefix, name, and value. Note these
+      * values will only be added from the Field if they are not specifically defined in the Input object.
+      *
+      * @param field
+      * @param messages
+      */
+    override def withFormField(field: Field): Input =
+      input
+        .withName(field)
+        .withId(field)
+        .withValue(field)
+        .withErrorMessage(field)
+
+    override protected val currentT: Input = input
+
+    override protected def allowOverrideName: Boolean = input.name == Input.defaultObject.name
+
+    override protected def allowOverrideId: Boolean = input.id == Input.defaultObject.id
+
+    override protected def allowOverrideError: Boolean = input.errorMessage == Input.defaultObject.errorMessage
+
+    override protected def updateName: String => Input = updatedName => input.copy(name = updatedName)
+
+    override protected def updateId: String => Input =
+      updatedId => input.copy(id = updatedId)
+
+    override protected def updateErrorMessage: ErrorMessage => Input =
+      updatedErrorMessage => input.copy(errorMessage = Some(updatedErrorMessage))
+
+    override protected def allowOverrideValue: Boolean =
+      input.value == Input.defaultObject.value
+
+    override protected def updateValue: String => Input =
+      updatedValue => input.copy(value = Some(updatedValue))
+  }
+
+  implicit class RichCheckboxes(checkboxes: Checkboxes)(implicit val messages: Messages) extends ImplicitsSupport[Checkboxes] {
+
+    /**
+      * Extension method to allow a Play form Field to be used to add certain parameters in a Checkboxes,
+      * specifically errorMessage, idPrefix, name, and checked (for a specific CheckboxItem). Note these
+      * values will only be added from the Field if they are not specifically defined in the Checkboxes object.
+      *
+      * @param field
+      * @param messages
+      */
+    override def withFormField(field: Field): Checkboxes =
+      checkboxes
+        .withName(field)
+        .withId(field)
+        .withErrorMessage(field)
+        .withItemsChecked(field)
+
+    override protected val currentT: Checkboxes = checkboxes
+
+    override protected def allowOverrideName: Boolean = checkboxes.name == Checkboxes.defaultObject.name
+
+    override protected def allowOverrideId: Boolean = checkboxes.idPrefix == Checkboxes.defaultObject.idPrefix
+
+    override protected def allowOverrideError: Boolean = checkboxes.errorMessage == Checkboxes.defaultObject.errorMessage
+
+    override protected def allowOverrideValue: Boolean = false
+
+    override protected def updateName: String => Checkboxes =
+      updatedName => checkboxes.copy(name = updatedName)
+
+    override protected def updateId: String => Checkboxes =
+      updatedId => checkboxes.copy(idPrefix = Some(updatedId))
+
+    override protected def updateErrorMessage: ErrorMessage => Checkboxes =
+      updatedErrorMessage => checkboxes.copy(errorMessage = Some(updatedErrorMessage))
+
+    override protected def updateValue: String => Checkboxes =
+      _ => currentT
+
+    private[views] def withItemsChecked(field: Field): Checkboxes =
+      checkboxes.copy(
+        items = checkboxes.items.map { checkboxItem =>
+          if (checkboxItem.checked == CheckboxItem.defaultObject.checked) {
+            val isChecked = field.value.contains(checkboxItem.value)
+            checkboxItem.copy(checked = isChecked)
+          }
+          else checkboxItem
+        }
+      )
   }
 }
 
 object Implicits extends Implicits
+
+trait ImplicitsSupport[T] {
+  implicit val messages: Messages
+
+  def withFormField(field: Field): T
+
+  protected val currentT: T
+
+  protected def allowOverrideName: Boolean
+
+  protected def allowOverrideId: Boolean
+
+  protected def allowOverrideError: Boolean
+
+  protected def allowOverrideValue: Boolean
+
+  protected def updateName: String => T
+
+  protected def updateId: String => T
+
+  protected def updateErrorMessage: ErrorMessage => T
+
+  protected def updateValue: String => T
+
+  private[views] def withName(field: Field): T =
+    if (allowOverrideName) updateName(field.name) else currentT
+
+  private[views] def withId(field: Field): T =
+    if (allowOverrideId) updateId(field.name) else currentT
+
+  private[views] def withValue(field: Field): T =
+    if (allowOverrideValue) field.value.map(updateValue).getOrElse(currentT)
+    else currentT
+
+  private[views] def withErrorMessage(field: Field): T = {
+    if (allowOverrideError) {
+      field.error
+        .map(formError =>
+          ErrorMessage(content = Text(messages(formError.message, formError.args: _*)))
+        )
+        .map(updateErrorMessage(_)).getOrElse(currentT)
+    }
+    else currentT
+  }
+}
