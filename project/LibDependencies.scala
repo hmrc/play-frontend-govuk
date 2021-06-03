@@ -8,11 +8,11 @@ object LibDependencies {
 
   val compile: Seq[ModuleID] = dependencies(
     shared = Seq(
-      "org.joda"           % "joda-convert"    % "2.0.2",
-      "org.webjars.npm"    % "govuk-frontend"  % govukFrontendVersion,
-      "org.scalaj"        %% "scalaj-http"     % "2.4.2",
-      "com.typesafe.play" %% "play"            % PlayVersion.current,
-      "com.typesafe.play" %% "filters-helpers" % PlayVersion.current
+      "org.joda"            % "joda-convert"    % "2.0.2",
+      "uk.gov.hmrc.webjars" % "govuk-frontend"  % govukFrontendVersion,
+      "org.scalaj"         %% "scalaj-http"     % "2.4.2",
+      "com.typesafe.play"  %% "play"            % PlayVersion.current,
+      "com.typesafe.play"  %% "filters-helpers" % PlayVersion.current
     )
   )
 

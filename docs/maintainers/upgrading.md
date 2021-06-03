@@ -2,11 +2,13 @@
 
 ## Basic Steps
 
-1. Go to [webjars.org](https://webjars.org) and add the govuk-frontend webjar by the following steps:
- - Click `Add a WebJar`
- - Select `WebJar Type` as `NPM`
- - Input `govuk-frontend` and select the relevant version from the dropdown
- - Hit `Deploy!`
+1. In [hmrc/hmrc-frontend](https://www.github.com/hmrc/hmrc-frontend), 
+   - in package.json, bump the version of govuk-frontend in dependencies
+   - bump the version of hmrc-frontend
+   - update the CHANGELOG
+   - run all the tests
+   - raise a PR and merge
+1. Run the `govuk-frontend-webjar` build job.
 2. Bump webjar [dependency](https://github.com/alphagov/govuk-frontend/tags) for `govuk-frontend` in `build.sbt`.
 3. Generate fixtures folder `src/test/resources/fixtures/test-fixtures`.
    - With the template renderer running locally (see below), execute `sbt generateUnitTestFixtures` 

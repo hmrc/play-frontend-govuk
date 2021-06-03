@@ -20,7 +20,7 @@ lazy val root = Project(libName, file("."))
     libraryDependencies ++= LibDependencies(),
     TwirlKeys.templateImports := templateImports,
     PlayCrossCompilation.playCrossCompilationSettings,
-    makePublicallyAvailableOnBintray := true,
+    isPublicArtefact := true,
     // ***************
     // Use the silencer plugin to suppress warnings from unused imports in compiled twirl templates
     scalacOptions += "-P:silencer:pathFilters=views;routes",

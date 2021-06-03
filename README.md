@@ -231,10 +231,10 @@ TODO: link to scaladoc
 The library depends on a `govuk-frontend` artifact published as a webjar.
 
 ```sbt
-"org.webjars.npm" % "govuk-frontend" % "x.y.z"
+"uk.gov.hmrc.webjars" % "govuk-frontend" % "x.y.z"
 ```
 
-Currently GDS does not automate the publishing of the webjar so it has to be manually published from [WebJars](https://www.webjars.org) after a `govuk-frontend` release.
+This webjar is created and deployed manually. See [upgrading](docs/maintainers/upgrading.md).
 
 ## Getting help
 
