@@ -20,7 +20,8 @@
   govukTemplate: GovukTemplate,
   govukHeader: GovukHeader,
   govukFooter: GovukFooter,
-  govukBackLink: GovukBackLink
+  govukBackLink: GovukBackLink,
+  defaultMainContentLayout: TwoThirdsContent
 )
 
 @(
@@ -31,7 +32,8 @@
   footerBlock: Option[Html] = None,
   footerItems: Seq[FooterItem] = Seq.empty,
   bodyEndBlock: Option[Html] = None,
-  scriptsBlock: Option[Html] = None
+  scriptsBlock: Option[Html] = None,
+  mainContentLayout: Option[Html => Html] = Some(defaultMainContentLayout(_))
 )(contentBlock: Html)(implicit messages: Messages)
 
 @headerDefault = {
@@ -55,14 +57,6 @@
   @scriptsBlock
 }
 
-@mainContentDefault = {
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-    @contentBlock
-    </div>
-  </div>
-}
-
 @govukTemplate(
   htmlLang = Some(messages.lang.code),
   pageTitle = pageTitle,
@@ -72,5 +66,4 @@
   footerBlock = footerDefault,
   mainClasses = Some("govuk-main-wrapper--auto-spacing"),
   bodyEndBlock = Some(bodyEndDefault)
-)(mainContentDefault)
-
+)(mainContentLayout.map(_(contentBlock)).getOrElse(contentBlock))

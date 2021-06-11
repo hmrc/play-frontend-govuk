@@ -23,7 +23,7 @@ trait Layouts {
 
   type GovukLayout = govukLayout
   @deprecated(message = "Use DI", since = "Play 2.6")
-  lazy val GovukLayout = new govukLayout(GovukTemplate, GovukHeader, GovukFooter, GovukBackLink)
+  lazy val GovukLayout = new govukLayout(GovukTemplate, GovukHeader, GovukFooter, GovukBackLink, TwoThirdsContent)
 
   type GovukTemplate = govukTemplate
   @deprecated(message = "Use DI", since = "Play 2.6")

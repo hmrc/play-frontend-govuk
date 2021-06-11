@@ -16,11 +16,28 @@
 
 package uk.gov.hmrc.govukfrontend.views
 
-import uk.gov.hmrc.govukfrontend.views.html.helpers.formWithCSRF
+import uk.gov.hmrc.govukfrontend.views.html.helpers._
 
 trait Helpers {
 
   type FormWithCSRF = formWithCSRF
   @deprecated(message = "Use DI", since = "Play 2.6")
   lazy val FormWithCSRF = new formWithCSRF
+
+  type TwoThirdsContent = twoThirdsContent
+  @deprecated(message = "Use DI", since = "Play 2.6")
+  lazy val TwoThirdsContent = new twoThirdsContent
+
+  type TwoThirdsOneThirdContent = twoThirdsOneThirdContent
+  @deprecated(message = "Use DI", since = "Play 2.6")
+  lazy val TwoThirdsOneThirdContent = new twoThirdsOneThirdContent
+
+  type OneThirdTwoThirdsContent = oneThirdTwoThirdsContent
+  @deprecated(message = "Use DI", since = "Play 2.6")
+  lazy val OneThirdTwoThirdsContent = new oneThirdTwoThirdsContent
+
+  type TwoThirdsOneThirdContentWithHeading = twoThirdsOneThirdContentWithHeading
+  @deprecated(message = "Use DI", since = "Play 2.6")
+  lazy val TwoThirdsOneThirdContentWithHeading = new twoThirdsOneThirdContentWithHeading
+
 }
