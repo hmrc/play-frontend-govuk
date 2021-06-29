@@ -24,12 +24,15 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.data.FormError
+import play.api.i18n.Messages
+import play.api.test.Helpers.{stubMessages, stubMessagesApi}
 import play.twirl.api.{Html, HtmlFormat}
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.Generators._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{Content, HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorLink
+
 import scala.collection.immutable
 import scala.util.Random
 
@@ -47,6 +50,46 @@ class ImplicitsSpec
 
   "RichFormErrors" when {
     "asErrorLinks" should {
+
+      "handle non-nested values correctly" in {
+        val formErrors: Seq[FormError]            =
+          Seq(FormError(key = s"date.day", message = "date.day.missing", args = Seq.empty))
+        val contentConstructor: String => Content = Text.apply
+        implicit val messages: Messages           = stubMessages(
+          stubMessagesApi(
+            Map(
+              "en" -> Map(
+                "date.day.missing" -> "The date your passport was issued must include a day"
+              )
+            )
+          )
+        )
+
+        formErrors.asErrorLinks(contentConstructor) shouldBe (Seq(
+          ErrorLink(href = Some("#date.day"), content = Text("The date your passport was issued must include a day"))
+        ))
+      }
+
+      "handle nested values correctly" in {
+        val formErrors: Seq[FormError]            =
+          Seq(FormError(key = s"date", message = "date.invalid", args = Seq.empty))
+        val contentConstructor: String => Content = Text.apply
+        implicit val messages: Messages           = stubMessages(
+          stubMessagesApi(
+            Map(
+              "en" -> Map(
+                "date.invalid" -> "The date your passport was issued must be in the past"
+              )
+            )
+          )
+        )
+        val nestedKeys                            = Map("date" -> "date.day")
+
+        formErrors.asErrorLinks(contentConstructor, nestedKeys) shouldBe (Seq(
+          ErrorLink(href = Some("#date.day"), content = Text("The date your passport was issued must be in the past"))
+        ))
+      }
+
       "convert FormErrors to ErrorLinks with either text or html" in {
         forAll(genFormErrorsAndMessages) { case (formErrors, contentConstructor, messagesStub) =>
           import messagesStub.messages

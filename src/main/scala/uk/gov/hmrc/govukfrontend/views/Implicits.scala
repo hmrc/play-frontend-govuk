@@ -147,9 +147,15 @@ trait Implicits {
     def asTextErrorLinks: Seq[ErrorLink] =
       asErrorLinks(Text.apply)
 
-    private[views] def asErrorLinks(contentConstructor: String => Content): Seq[ErrorLink] =
+    private[views] def asErrorLinks(
+      contentConstructor: String => Content,
+      nestedKeys: Map[String, String] = Map.empty
+    ): Seq[ErrorLink] =
       formErrors.map { formError =>
-        ErrorLink(href = Some(s"#${formError.key}"), content = contentConstructor(errorMessage(formError)))
+        ErrorLink(
+          href = Some(s"#${nestedKeys.getOrElse(formError.key, formError.key)}"),
+          content = contentConstructor(errorMessage(formError))
+        )
       }
 
     def asHtmlErrorMessages: Seq[ErrorMessage] =
