@@ -214,7 +214,14 @@ trait Implicits {
         .withName(field)
         .withIdPrefix(field)
         .withItemsChecked(field)
-        .withErrorMessage(field)
+        .withTextErrorMessage(field)
+
+    override def withFormFieldWithHtmlError(field: Field): Radios =
+      radios
+        .withName(field)
+        .withIdPrefix(field)
+        .withItemsChecked(field)
+        .withHtmlErrorMessage(field)
 
     private[views] def withName(field: Field): Radios =
       withStringProperty(field.name, radios.name, radios)((rds, nm) => rds.copy(name = nm))
@@ -222,8 +229,13 @@ trait Implicits {
     private[views] def withIdPrefix(field: Field): Radios =
       withOptStringProperty(Some(field.name), radios.idPrefix, radios)((rds, ip) => rds.copy(idPrefix = ip))
 
-    private[views] def withErrorMessage(field: Field): Radios =
-      withOptErrorMessageProperty(field.error, radios.errorMessage, radios)((rds, errorMsg) =>
+    private[views] def withTextErrorMessage(field: Field): Radios =
+      withOptTextErrorMessageProperty(field.error, radios.errorMessage, radios)((rds, errorMsg) =>
+        rds.copy(errorMessage = errorMsg)
+      )
+
+    private[views] def withHtmlErrorMessage(field: Field): Radios =
+      withOptHtmlErrorMessageProperty(field.error, radios.errorMessage, radios)((rds, errorMsg) =>
         rds.copy(errorMessage = errorMsg)
       )
 
@@ -253,7 +265,14 @@ trait Implicits {
         .withName(field)
         .withId(field)
         .withValue(field)
-        .withErrorMessage(field)
+        .withTextErrorMessage(field)
+
+    override def withFormFieldWithHtmlError(field: Field): Input =
+      input
+        .withName(field)
+        .withId(field)
+        .withValue(field)
+        .withHtmlErrorMessage(field)
 
     private[views] def withName(field: Field): Input =
       withStringProperty(field.name, input.name, input)((ipt, nm) => ipt.copy(name = nm))
@@ -264,8 +283,13 @@ trait Implicits {
     private[views] def withValue(field: Field): Input =
       withOptStringProperty(field.value, input.value, input)((ipt, vl) => ipt.copy(value = vl))
 
-    private[views] def withErrorMessage(field: Field): Input =
-      withOptErrorMessageProperty(field.error, input.errorMessage, input)((ipt, errorMsg) =>
+    private[views] def withTextErrorMessage(field: Field): Input =
+      withOptTextErrorMessageProperty(field.error, input.errorMessage, input)((ipt, errorMsg) =>
+        ipt.copy(errorMessage = errorMsg)
+      )
+
+    private[views] def withHtmlErrorMessage(field: Field): Input =
+      withOptHtmlErrorMessageProperty(field.error, input.errorMessage, input)((ipt, errorMsg) =>
         ipt.copy(errorMessage = errorMsg)
       )
   }
@@ -285,7 +309,14 @@ trait Implicits {
       checkboxes
         .withName(field)
         .withIdPrefix(field)
-        .withErrorMessage(field)
+        .withTextErrorMessage(field)
+        .withItemsChecked(field)
+
+    override def withFormFieldWithHtmlError(field: Field): Checkboxes =
+      checkboxes
+        .withName(field)
+        .withIdPrefix(field)
+        .withHtmlErrorMessage(field)
         .withItemsChecked(field)
 
     private[views] def withName(field: Field): Checkboxes =
@@ -294,8 +325,13 @@ trait Implicits {
     private[views] def withIdPrefix(field: Field): Checkboxes =
       withOptStringProperty(Some(field.name), checkboxes.idPrefix, checkboxes)((cb, ip) => cb.copy(idPrefix = ip))
 
-    private[views] def withErrorMessage(field: Field): Checkboxes =
-      withOptErrorMessageProperty(field.error, checkboxes.errorMessage, checkboxes)((cb, errorMsg) =>
+    private[views] def withTextErrorMessage(field: Field): Checkboxes =
+      withOptTextErrorMessageProperty(field.error, checkboxes.errorMessage, checkboxes)((cb, errorMsg) =>
+        cb.copy(errorMessage = errorMsg)
+      )
+
+    private[views] def withHtmlErrorMessage(field: Field): Checkboxes =
+      withOptHtmlErrorMessageProperty(field.error, checkboxes.errorMessage, checkboxes)((cb, errorMsg) =>
         cb.copy(errorMessage = errorMsg)
       )
 
@@ -326,7 +362,14 @@ trait Implicits {
       select
         .withName(field)
         .withId(field)
-        .withErrorMessage(field)
+        .withTextErrorMessage(field)
+        .withItemSelected(field)
+
+    override def withFormFieldWithHtmlError(field: Field): Select =
+      select
+        .withName(field)
+        .withId(field)
+        .withHtmlErrorMessage(field)
         .withItemSelected(field)
 
     private[views] def withName(field: Field): Select =
@@ -335,8 +378,13 @@ trait Implicits {
     private[views] def withId(field: Field): Select =
       withStringProperty(field.name, select.id, select)((sct, id) => sct.copy(id = id))
 
-    private[views] def withErrorMessage(field: Field): Select =
-      withOptErrorMessageProperty(field.error, select.errorMessage, select)((sct, errorMsg) =>
+    private[views] def withTextErrorMessage(field: Field): Select =
+      withOptTextErrorMessageProperty(field.error, select.errorMessage, select)((sct, errorMsg) =>
+        sct.copy(errorMessage = errorMsg)
+      )
+
+    private[views] def withHtmlErrorMessage(field: Field): Select =
+      withOptHtmlErrorMessageProperty(field.error, select.errorMessage, select)((sct, errorMsg) =>
         sct.copy(errorMessage = errorMsg)
       )
 
@@ -366,7 +414,14 @@ trait Implicits {
         .withName(field)
         .withId(field)
         .withValue(field)
-        .withErrorMessage(field)
+        .withTextErrorMessage(field)
+
+    override def withFormFieldWithHtmlError(field: Field): Textarea =
+      textArea
+        .withName(field)
+        .withId(field)
+        .withValue(field)
+        .withTextErrorMessage(field)
 
     private[views] def withName(field: Field): Textarea =
       withStringProperty(field.name, textArea.name, textArea)((ta, nm) => ta.copy(name = nm))
@@ -377,8 +432,13 @@ trait Implicits {
     private[views] def withValue(field: Field): Textarea =
       withOptStringProperty(field.value, textArea.value, textArea)((ta, vl) => ta.copy(value = vl))
 
-    private[views] def withErrorMessage(field: Field): Textarea =
-      withOptErrorMessageProperty(field.error, textArea.errorMessage, textArea)((ta, errorMsg) =>
+    private[views] def withTextErrorMessage(field: Field): Textarea =
+      withOptTextErrorMessageProperty(field.error, textArea.errorMessage, textArea)((ta, errorMsg) =>
+        ta.copy(errorMessage = errorMsg)
+      )
+
+    private[views] def withHtmlErrorMessage(field: Field): Textarea =
+      withOptHtmlErrorMessageProperty(field.error, textArea.errorMessage, textArea)((ta, errorMsg) =>
         ta.copy(errorMessage = errorMsg)
       )
   }
@@ -401,6 +461,13 @@ trait Implicits {
         .withValue(field)
         .withErrorMessage(field)
 
+    override def withFormFieldWithHtmlError(field: Field): CharacterCount =
+      characterCount
+        .withName(field)
+        .withId(field)
+        .withValue(field)
+        .withHtmlErrorMessage(field)
+
     private[views] def withName(field: Field): CharacterCount =
       withStringProperty(field.name, characterCount.name, characterCount)((cc, nm) => cc.copy(name = nm))
 
@@ -411,11 +478,15 @@ trait Implicits {
       withOptStringProperty(field.value, characterCount.value, characterCount)((cc, vl) => cc.copy(value = vl))
 
     private[views] def withErrorMessage(field: Field): CharacterCount =
-      withOptErrorMessageProperty(field.error, characterCount.errorMessage, characterCount)((cc, errorMsg) =>
+      withOptTextErrorMessageProperty(field.error, characterCount.errorMessage, characterCount)((cc, errorMsg) =>
+        cc.copy(errorMessage = errorMsg)
+      )
+
+    private[views] def withHtmlErrorMessage(field: Field): CharacterCount =
+      withOptHtmlErrorMessageProperty(field.error, characterCount.errorMessage, characterCount)((cc, errorMsg) =>
         cc.copy(errorMessage = errorMsg)
       )
   }
-
 }
 
 object Implicits extends Implicits
@@ -425,6 +496,8 @@ trait ImplicitsSupport[T] {
   implicit val messages: Messages
 
   def withFormField(field: Field): T
+
+  def withFormFieldWithHtmlError(field: Field): T
 
   protected[views] def withStringProperty(propFromField: String, currentProp: String, currentFormInput: T)(
     update: (T, String) => T
@@ -448,13 +521,25 @@ trait ImplicitsSupport[T] {
       formInput = currentFormInput
     )(update)
 
-  protected[views] def withOptErrorMessageProperty(
+  protected[views] def withOptTextErrorMessageProperty(
     formError: Option[FormError],
     currentProp: Option[ErrorMessage],
     currentFormInput: T
   )(update: (T, Option[ErrorMessage]) => T): T =
     withProperty[Option[ErrorMessage], T](
-      propertyFromField = formErrorToErrorMessage(formError),
+      propertyFromField = formErrorToTextErrorMessage(formError),
+      propertyFromUnderlying = currentProp,
+      default = None,
+      formInput = currentFormInput
+    )(update)
+
+  protected[views] def withOptHtmlErrorMessageProperty(
+    formError: Option[FormError],
+    currentProp: Option[ErrorMessage],
+    currentFormInput: T
+  )(update: (T, Option[ErrorMessage]) => T): T =
+    withProperty[Option[ErrorMessage], T](
+      propertyFromField = formErrorToHtmlErrorMessage(formError),
       propertyFromUnderlying = currentProp,
       default = None,
       formInput = currentFormInput
@@ -466,6 +551,9 @@ trait ImplicitsSupport[T] {
     if (propertyFromUnderlying == default) update(formInput, propertyFromField)
     else formInput
 
-  private def formErrorToErrorMessage(formError: Option[FormError]): Option[ErrorMessage] =
+  private def formErrorToTextErrorMessage(formError: Option[FormError]): Option[ErrorMessage] =
     formError.map(formError => ErrorMessage(content = Text(messages(formError.message, formError.args: _*))))
+
+  private def formErrorToHtmlErrorMessage(formError: Option[FormError]): Option[ErrorMessage] =
+    formError.map(formError => ErrorMessage(content = HtmlContent(messages(formError.message, formError.args: _*))))
 }
