@@ -20,7 +20,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import uk.gov.hmrc.govukfrontend.views.MessagesHelpers
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
 import uk.gov.hmrc.govukfrontend.views.viewmodels.select.{Select, SelectItem}
 
@@ -90,6 +90,20 @@ class RichSelectSpec extends AnyWordSpec with Matchers with MessagesHelpers with
           selectItemWorst
         )
       )
+    }
+  }
+
+  "Given a Select object, calling withFormFieldWithErrorAsHtml" should {
+    "convert the first Field form error to an Input HTML error message if provided" in {
+      val select = Select().withFormFieldWithErrorAsHtml(field = field)
+      select.errorMessage shouldBe Some(ErrorMessage(content = HtmlContent("Error on: Firstname&nbsp;Lastname")))
+    }
+
+    "use the Input error message over the Field error if both provided" in {
+      val select = Select(
+        errorMessage = Some(ErrorMessage(content = Text("Select Error")))
+      ).withFormFieldWithErrorAsHtml(field)
+      select.errorMessage shouldBe Some(ErrorMessage(content = Text("Select Error")))
     }
   }
 }

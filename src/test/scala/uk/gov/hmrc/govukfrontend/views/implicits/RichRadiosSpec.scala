@@ -20,8 +20,9 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import uk.gov.hmrc.govukfrontend.views.MessagesHelpers
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
+import uk.gov.hmrc.govukfrontend.views.viewmodels.input.Input
 import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
 
 class RichRadiosSpec extends AnyWordSpec with Matchers with MessagesHelpers with RichFormInputHelpers {
@@ -90,6 +91,20 @@ class RichRadiosSpec extends AnyWordSpec with Matchers with MessagesHelpers with
           radioItemWorst
         )
       )
+    }
+  }
+
+  "Given a Radios object, calling withFormFieldWithErrorAsHtml" should {
+    "convert the first Field form error to an Input HTML error message if provided" in {
+      val radios = Radios().withFormFieldWithErrorAsHtml(field = field)
+      radios.errorMessage shouldBe Some(ErrorMessage(content = HtmlContent("Error on: Firstname&nbsp;Lastname")))
+    }
+
+    "use the Input error message over the Field error if both provided" in {
+      val radios = Radios(
+        errorMessage = Some(ErrorMessage(content = Text("Radios Error")))
+      ).withFormFieldWithErrorAsHtml(field)
+      radios.errorMessage shouldBe Some(ErrorMessage(content = Text("Radios Error")))
     }
   }
 }

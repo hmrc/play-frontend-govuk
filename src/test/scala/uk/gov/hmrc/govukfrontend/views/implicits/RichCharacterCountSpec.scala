@@ -47,7 +47,7 @@ class RichCharacterCountSpec extends AnyWordSpec with Matchers with MessagesHelp
       characterCount.id shouldBe "CharacterCount Id"
     }
 
-    "convert the first Field form error to an CharacterCount error message if provided" in {
+    "convert the first Field form text error to an CharacterCount error message if provided" in {
       val characterCount = CharacterCount().withFormField(field)
       characterCount.errorMessage shouldBe Some(ErrorMessage(content = Text("Error on: Firstname&nbsp;Lastname")))
     }
@@ -81,8 +81,7 @@ class RichCharacterCountSpec extends AnyWordSpec with Matchers with MessagesHelp
   }
 
   "Given an CharacterCount object, calling withFormFieldWithErrorAsHtml" should {
-
-    "convert the first Field form error to an CharacterCount error message if provided" in {
+    "convert the first Field form error to an CharacterCount HTML error message if provided" in {
       val characterCount = CharacterCount().withFormFieldWithErrorAsHtml(field = field)
       characterCount.errorMessage shouldBe Some(ErrorMessage(content = HtmlContent("Error on: Firstname&nbsp;Lastname")))
     }

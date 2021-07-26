@@ -20,7 +20,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import uk.gov.hmrc.govukfrontend.views.MessagesHelpers
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
 import uk.gov.hmrc.govukfrontend.views.viewmodels.textarea.Textarea
 
@@ -77,6 +77,20 @@ class RichTextareaSpec extends AnyWordSpec with Matchers with MessagesHelpers wi
         errorMessage = Some(ErrorMessage(content = Text("Error on: Firstname&nbsp;Lastname"))),
         value = Some("bad")
       )
+    }
+  }
+
+  "Given a Textarea object, calling withFormFieldWithErrorAsHtml" should {
+    "convert the first Field form error to an Input HTML error message if provided" in {
+      val textarea = Textarea().withFormFieldWithErrorAsHtml(field = field)
+      textarea.errorMessage shouldBe Some(ErrorMessage(content = HtmlContent("Error on: Firstname&nbsp;Lastname")))
+    }
+
+    "use the Input error message over the Field error if both provided" in {
+      val textarea = Textarea(
+        errorMessage = Some(ErrorMessage(content = Text("Textarea Error")))
+      ).withFormFieldWithErrorAsHtml(field)
+      textarea.errorMessage shouldBe Some(ErrorMessage(content = Text("Textarea Error")))
     }
   }
 }
