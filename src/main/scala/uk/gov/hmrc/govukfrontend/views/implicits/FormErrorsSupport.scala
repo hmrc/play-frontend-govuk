@@ -62,9 +62,9 @@ trait FormErrorsSupport {
       asErrorMessage(Text.apply, messageSelector)
 
     private[views] def asErrorMessage(
-                                       contentConstructor: String => Content,
-                                       messageSelector: String
-                                     ): Option[ErrorMessage] =
+      contentConstructor: String => Content,
+      messageSelector: String
+    ): Option[ErrorMessage] =
       formErrors
         .find(_.message == messageSelector)
         .map { formError =>
@@ -78,9 +78,9 @@ trait FormErrorsSupport {
       asErrorMessageForField(Text.apply, fieldKey)
 
     private[views] def asErrorMessageForField(
-                                               contentConstructor: String => Content,
-                                               fieldKey: String
-                                             ): Option[ErrorMessage] =
+      contentConstructor: String => Content,
+      fieldKey: String
+    ): Option[ErrorMessage] =
       formErrors
         .find(_.key == fieldKey)
         .map { formError =>
