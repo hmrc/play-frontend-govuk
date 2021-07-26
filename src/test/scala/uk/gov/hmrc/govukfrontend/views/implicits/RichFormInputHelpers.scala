@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.govukfrontend.views
+package uk.gov.hmrc.govukfrontend.views.implicits
 
-import play.api.data.{Field, Form, FormError}
 import play.api.data.Forms.{mapping, set, text}
+import play.api.data.{Field, Form, FormError}
 
 trait RichFormInputHelpers {
 
   val form = TestFormBind.form.bindFromRequest(
     Map(
-      "user-name"                        -> Seq("Test Name"),
-      "user-email"                       -> Seq("test@example.com"),
+      "user-name" -> Seq("Test Name"),
+      "user-email" -> Seq("test@example.com"),
       "user-communication-preferences[]" -> Seq("post", "email")
     )
   )
@@ -35,7 +35,7 @@ trait RichFormInputHelpers {
     constraints = Nil,
     format = None,
     errors = Seq(
-      FormError(key = "user-name", "Not valid name")
+      FormError(key = "user-name", "Error on: Firstname&nbsp;Lastname")
     ),
     value = Some("bad")
   )
@@ -56,8 +56,8 @@ trait RichFormInputHelpers {
   object TestFormBind {
     def form: Form[TestForm] = Form[TestForm](
       mapping(
-        "user-name"                      -> text,
-        "user-email"                     -> text,
+        "user-name" -> text,
+        "user-email" -> text,
         "user-communication-preferences" -> set(text)
       )(TestForm.apply)(TestForm.unapply)
     )

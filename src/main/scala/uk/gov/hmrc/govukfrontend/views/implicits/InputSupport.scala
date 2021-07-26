@@ -39,7 +39,7 @@ trait InputSupport {
         .withValue(field)
         .withTextErrorMessage(field)
 
-    override def withFormFieldWithHtmlError(field: Field): Input =
+    override def withFormFieldWithErrorAsHtml(field: Field): Input =
       input
         .withName(field)
         .withId(field)

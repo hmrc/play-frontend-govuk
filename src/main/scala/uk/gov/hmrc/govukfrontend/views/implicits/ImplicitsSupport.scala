@@ -27,7 +27,7 @@ trait ImplicitsSupport[T] {
 
   def withFormField(field: Field): T
 
-  def withFormFieldWithHtmlError(field: Field): T
+  def withFormFieldWithErrorAsHtml(field: Field): T
 
   protected[views] def withStringProperty(propFromField: String, currentProp: String, currentFormInput: T)(
     update: (T, String) => T

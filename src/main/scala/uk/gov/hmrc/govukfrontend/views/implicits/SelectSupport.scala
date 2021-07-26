@@ -39,7 +39,7 @@ trait SelectSupport {
         .withTextErrorMessage(field)
         .withItemSelected(field)
 
-    override def withFormFieldWithHtmlError(field: Field): Select =
+    override def withFormFieldWithErrorAsHtml(field: Field): Select =
       select
         .withName(field)
         .withId(field)

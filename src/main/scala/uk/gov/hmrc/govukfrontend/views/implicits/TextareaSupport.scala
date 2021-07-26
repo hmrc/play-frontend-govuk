@@ -39,7 +39,7 @@ trait TextareaSupport {
         .withValue(field)
         .withTextErrorMessage(field)
 
-    override def withFormFieldWithHtmlError(field: Field): Textarea =
+    override def withFormFieldWithErrorAsHtml(field: Field): Textarea =
       textArea
         .withName(field)
         .withId(field)

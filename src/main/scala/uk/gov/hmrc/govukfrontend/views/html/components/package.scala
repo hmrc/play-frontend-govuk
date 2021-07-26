@@ -17,12 +17,23 @@
 package uk.gov.hmrc.govukfrontend.views
 package html
 
+import uk.gov.hmrc.govukfrontend.views.implicits._
+
 package object components extends Utils with Aliases with Layouts with Helpers {
 
   /**
     * Top-level implicits for all components
     */
-  object implicits extends Implicits
+  object implicits extends CharacterCountSupport
+    with CheckboxesSupport
+    with FormErrorsSupport
+    with HtmlSupport
+    with InputSupport
+    with OptionStringSupport
+    with RadiosSupport
+    with SelectSupport
+    with StringSupport
+    with TextareaSupport
 
   type GovukBackLink = govukBackLink
   @deprecated(message = "Use DI", since = "Play 2.6")

@@ -40,7 +40,7 @@ trait CharacterCountSupport {
         .withValue(field)
         .withErrorMessage(field)
 
-    override def withFormFieldWithHtmlError(field: Field): CharacterCount =
+    override def withFormFieldWithErrorAsHtml(field: Field): CharacterCount =
       characterCount
         .withName(field)
         .withId(field)

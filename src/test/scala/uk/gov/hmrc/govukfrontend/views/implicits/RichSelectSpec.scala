@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.govukfrontend.views
+package uk.gov.hmrc.govukfrontend.views.implicits
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import uk.gov.hmrc.govukfrontend.views.MessagesHelpers
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
-import uk.gov.hmrc.govukfrontend.views.viewmodels.select.{Select, SelectItem}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
+import uk.gov.hmrc.govukfrontend.views.viewmodels.select.{Select, SelectItem}
 
 class RichSelectSpec extends AnyWordSpec with Matchers with MessagesHelpers with RichFormInputHelpers {
 
@@ -61,7 +62,7 @@ class RichSelectSpec extends AnyWordSpec with Matchers with MessagesHelpers with
 
     "convert the first Field form error to a Select error message if provided" in {
       val select = Select().withFormField(field)
-      select.errorMessage shouldBe Some(ErrorMessage(content = Text("Not valid name")))
+      select.errorMessage shouldBe Some(ErrorMessage(content = Text("Error on: Firstname&nbsp;Lastname")))
     }
 
     "use the Select error message over the Field error if both provided" in {
@@ -82,7 +83,7 @@ class RichSelectSpec extends AnyWordSpec with Matchers with MessagesHelpers with
       select.withFormField(field) shouldBe Select(
         name = "user-name",
         id = "user-name",
-        errorMessage = Some(ErrorMessage(content = Text("Not valid name"))),
+        errorMessage = Some(ErrorMessage(content = Text("Error on: Firstname&nbsp;Lastname"))),
         items = Seq(
           selectItemGood,
           selectItemBad.copy(selected = true),

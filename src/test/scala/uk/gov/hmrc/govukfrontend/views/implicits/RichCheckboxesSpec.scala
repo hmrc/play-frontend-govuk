@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.govukfrontend.views
+package uk.gov.hmrc.govukfrontend.views.implicits
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import uk.gov.hmrc.govukfrontend.views.MessagesHelpers
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
+import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.{CheckboxItem, Checkboxes}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
-import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.{CheckboxItem, Checkboxes}
 
 class RichCheckboxesSpec extends AnyWordSpec with Matchers with MessagesHelpers with RichFormInputHelpers {
 
@@ -62,7 +63,7 @@ class RichCheckboxesSpec extends AnyWordSpec with Matchers with MessagesHelpers 
 
     "convert the first Field form error to a Checkboxes error message if provided" in {
       val checkboxes = Checkboxes().withFormField(field)
-      checkboxes.errorMessage shouldBe Some(ErrorMessage(content = Text("Not valid name")))
+      checkboxes.errorMessage shouldBe Some(ErrorMessage(content = Text("Error on: Firstname&nbsp;Lastname")))
     }
 
     "use the Checkboxes error message over the Field error if both provided" in {

@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.govukfrontend.views
+package uk.gov.hmrc.govukfrontend.views.implicits
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import uk.gov.hmrc.govukfrontend.views.MessagesHelpers
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
@@ -61,7 +62,7 @@ class RichRadiosSpec extends AnyWordSpec with Matchers with MessagesHelpers with
 
     "convert the first Field form error to a Radios error message if provided" in {
       val radios = Radios().withFormField(field)
-      radios.errorMessage shouldBe Some(ErrorMessage(content = Text("Not valid name")))
+      radios.errorMessage shouldBe Some(ErrorMessage(content = Text("Error on: Firstname&nbsp;Lastname")))
     }
 
     "use the Radios error message over the Field error if both provided" in {
@@ -82,7 +83,7 @@ class RichRadiosSpec extends AnyWordSpec with Matchers with MessagesHelpers with
       radios.withFormField(field) shouldBe Radios(
         name = "user-name",
         idPrefix = Some("user-name"),
-        errorMessage = Some(ErrorMessage(content = Text("Not valid name"))),
+        errorMessage = Some(ErrorMessage(content = Text("Error on: Firstname&nbsp;Lastname"))),
         items = Seq(
           radioItemGood,
           radioItemBad.copy(checked = true),

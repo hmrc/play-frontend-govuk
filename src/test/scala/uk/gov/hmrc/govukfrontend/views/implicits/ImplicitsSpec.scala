@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.govukfrontend.views
+package uk.gov.hmrc.govukfrontend.views.implicits
 
-import java.util.UUID
 import org.scalacheck.Arbitrary._
 import org.scalacheck.{Gen, ShrinkLowPriority}
 import org.scalatest.OptionValues
-import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import play.api.data.FormError
 import play.twirl.api.{Html, HtmlFormat}
+import uk.gov.hmrc.govukfrontend.views.MessagesHelpers
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.Generators._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{Content, HtmlContent, Text}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorLink
+
+import java.util.UUID
 import scala.collection.immutable
 import scala.util.Random
 
@@ -177,7 +179,7 @@ class ImplicitsSpec
   object Generators {
 
     /**
-      * Generate indentation arguments for [[uk.gov.hmrc.govukfrontend.views.Implicits.RichString.indent(int, boolean)]]
+      * Generate indentation arguments for [[uk.gov.hmrc.govukfrontend.views.implicits.StringSupport.RichString.indent(int, boolean)]]
       */
     val genIndentArgs: Gen[(String, Int, Boolean)] =
       for {

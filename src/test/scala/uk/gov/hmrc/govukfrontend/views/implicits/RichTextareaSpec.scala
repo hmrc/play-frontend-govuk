@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.govukfrontend.views
+package uk.gov.hmrc.govukfrontend.views.implicits
 
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
+import uk.gov.hmrc.govukfrontend.views.MessagesHelpers
 import uk.gov.hmrc.govukfrontend.views.html.components.implicits._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Text
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
@@ -48,7 +49,7 @@ class RichTextareaSpec extends AnyWordSpec with Matchers with MessagesHelpers wi
 
     "convert the first Field form error to an Textarea error message if provided" in {
       val textarea = Textarea().withFormField(field)
-      textarea.errorMessage shouldBe Some(ErrorMessage(content = Text("Not valid name")))
+      textarea.errorMessage shouldBe Some(ErrorMessage(content = Text("Error on: Firstname&nbsp;Lastname")))
     }
 
     "use the Textarea error message over the Field error if both provided" in {
@@ -73,7 +74,7 @@ class RichTextareaSpec extends AnyWordSpec with Matchers with MessagesHelpers wi
       textarea.withFormField(field) shouldBe Textarea(
         name = "user-name",
         id = "user-name",
-        errorMessage = Some(ErrorMessage(content = Text("Not valid name"))),
+        errorMessage = Some(ErrorMessage(content = Text("Error on: Firstname&nbsp;Lastname"))),
         value = Some("bad")
       )
     }

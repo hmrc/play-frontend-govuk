@@ -40,7 +40,7 @@ trait CheckboxesSupport {
         .withTextErrorMessage(field)
         .withItemsChecked(field)
 
-    override def withFormFieldWithHtmlError(field: Field): Checkboxes =
+    override def withFormFieldWithErrorAsHtml(field: Field): Checkboxes =
       checkboxes
         .withName(field)
         .withIdPrefix(field)

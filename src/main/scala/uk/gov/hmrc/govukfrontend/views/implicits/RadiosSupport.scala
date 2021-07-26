@@ -39,7 +39,7 @@ trait RadiosSupport {
         .withItemsChecked(field)
         .withTextErrorMessage(field)
 
-    override def withFormFieldWithHtmlError(field: Field): Radios =
+    override def withFormFieldWithErrorAsHtml(field: Field): Radios =
       radios
         .withName(field)
         .withIdPrefix(field)
