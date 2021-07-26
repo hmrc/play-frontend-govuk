@@ -421,7 +421,7 @@ trait Implicits {
         .withName(field)
         .withId(field)
         .withValue(field)
-        .withTextErrorMessage(field)
+        .withHtmlErrorMessage(field)
 
     private[views] def withName(field: Field): Textarea =
       withStringProperty(field.name, textArea.name, textArea)((ta, nm) => ta.copy(name = nm))
