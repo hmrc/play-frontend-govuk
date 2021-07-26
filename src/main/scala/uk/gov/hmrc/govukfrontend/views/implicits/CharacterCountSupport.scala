@@ -23,7 +23,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.charactercount.CharacterCount
 trait CharacterCountSupport {
 
   implicit class RichCharacterCount(characterCount: CharacterCount)(implicit val messages: Messages)
-    extends ImplicitsSupport[CharacterCount] {
+      extends ImplicitsSupport[CharacterCount] {
 
     /**
       * Extension method to allow a Play form Field to be used to add certain parameters in an CharacterCount,

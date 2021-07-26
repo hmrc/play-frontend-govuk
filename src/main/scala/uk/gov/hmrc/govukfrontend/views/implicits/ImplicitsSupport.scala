@@ -40,10 +40,10 @@ trait ImplicitsSupport[T] {
     )(update)
 
   protected[views] def withOptStringProperty(
-                                              propFromField: Option[String],
-                                              currentProp: Option[String],
-                                              currentFormInput: T
-                                            )(update: (T, Option[String]) => T): T =
+    propFromField: Option[String],
+    currentProp: Option[String],
+    currentFormInput: T
+  )(update: (T, Option[String]) => T): T =
     withProperty[Option[String], T](
       propertyFromField = propFromField,
       propertyFromUnderlying = currentProp,
@@ -52,10 +52,10 @@ trait ImplicitsSupport[T] {
     )(update)
 
   protected[views] def withOptTextErrorMessageProperty(
-                                                        formError: Option[FormError],
-                                                        currentProp: Option[ErrorMessage],
-                                                        currentFormInput: T
-                                                      )(update: (T, Option[ErrorMessage]) => T): T =
+    formError: Option[FormError],
+    currentProp: Option[ErrorMessage],
+    currentFormInput: T
+  )(update: (T, Option[ErrorMessage]) => T): T =
     withProperty[Option[ErrorMessage], T](
       propertyFromField = formErrorToTextErrorMessage(formError),
       propertyFromUnderlying = currentProp,
@@ -64,10 +64,10 @@ trait ImplicitsSupport[T] {
     )(update)
 
   protected[views] def withOptHtmlErrorMessageProperty(
-                                                        formError: Option[FormError],
-                                                        currentProp: Option[ErrorMessage],
-                                                        currentFormInput: T
-                                                      )(update: (T, Option[ErrorMessage]) => T): T =
+    formError: Option[FormError],
+    currentProp: Option[ErrorMessage],
+    currentFormInput: T
+  )(update: (T, Option[ErrorMessage]) => T): T =
     withProperty[Option[ErrorMessage], T](
       propertyFromField = formErrorToHtmlErrorMessage(formError),
       propertyFromUnderlying = currentProp,

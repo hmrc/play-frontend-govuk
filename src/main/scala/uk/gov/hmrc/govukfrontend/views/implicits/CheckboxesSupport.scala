@@ -23,7 +23,7 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.checkboxes.{CheckboxItem, Chec
 trait CheckboxesSupport {
 
   implicit class RichCheckboxes(checkboxes: Checkboxes)(implicit val messages: Messages)
-    extends ImplicitsSupport[Checkboxes] {
+      extends ImplicitsSupport[Checkboxes] {
 
     /**
       * Extension method to allow a Play form Field to be used to add certain parameters in a Checkboxes,

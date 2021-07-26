@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.govukfrontend.views
 
-import play.api.data.{Field, FormError}
+import play.api.data.FormError
 import play.api.i18n.Messages
 import play.twirl.api.TemplateMagic.anyToDefault
 import play.twirl.api.{Html, HtmlFormat}
@@ -25,7 +25,13 @@ import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{Content, HtmlContent,
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errormessage.ErrorMessage
 import uk.gov.hmrc.govukfrontend.views.viewmodels.errorsummary.ErrorLink
 
-trait Implicits extends SelectSupport with RadiosSupport with InputSupport with CheckboxesSupport with TextareaSupport with CharacterCountSupport {
+trait Implicits
+    extends CharacterCountSupport
+    with CheckboxesSupport
+    with InputSupport
+    with RadiosSupport
+    with SelectSupport
+    with TextareaSupport {
 
   implicit class RichHtml(html: Html) {
 
