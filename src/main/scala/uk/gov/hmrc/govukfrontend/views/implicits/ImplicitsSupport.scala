@@ -82,8 +82,8 @@ trait ImplicitsSupport[T] {
     else formInput
 
   private def formErrorToTextErrorMessage(formError: Option[FormError]): Option[ErrorMessage] =
-    formError.map(formError => ErrorMessage(content = Text(messages(formError.message, formError.args: _*))))
+    formError.map(formError => ErrorMessage(content = Text(messages(formError.message, formError.args: _*))).withDefaultStringsTranslated)
 
   private def formErrorToHtmlErrorMessage(formError: Option[FormError]): Option[ErrorMessage] =
-    formError.map(formError => ErrorMessage(content = HtmlContent(messages(formError.message, formError.args: _*))))
+    formError.map(formError => ErrorMessage(content = HtmlContent(messages(formError.message, formError.args: _*))).withDefaultStringsTranslated)
 }

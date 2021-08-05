@@ -74,7 +74,7 @@ class RichInputSpec extends AnyWordSpec with Matchers with MessagesHelpers with 
       input.withFormField(field) shouldBe Input(
         name = "user-name",
         id = "user-name",
-        errorMessage = Some(ErrorMessage(content = Text("Error on: Firstname&nbsp;Lastname"))),
+        errorMessage = Some(ErrorMessage(content = Text("Error on: Firstname&nbsp;Lastname")).withDefaultStringsTranslated),
         value = Some("bad")
       )
     }

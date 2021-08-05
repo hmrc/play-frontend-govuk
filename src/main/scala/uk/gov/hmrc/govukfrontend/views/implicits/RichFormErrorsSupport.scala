@@ -52,7 +52,7 @@ trait RichFormErrorsSupport {
     private[views] def asErrorMessages(contentConstructor: String => Content): Seq[ErrorMessage] =
       formErrors
         .map { formError =>
-          ErrorMessage(content = contentConstructor(errorMessage(formError)))
+          ErrorMessage(content = contentConstructor(errorMessage(formError))).withDefaultStringsTranslated
         }
 
     def asHtmlErrorMessage(messageSelector: String): Option[ErrorMessage] =
@@ -68,7 +68,7 @@ trait RichFormErrorsSupport {
       formErrors
         .find(_.message == messageSelector)
         .map { formError =>
-          ErrorMessage(content = contentConstructor(errorMessage(formError)))
+          ErrorMessage(content = contentConstructor(errorMessage(formError))).withDefaultStringsTranslated
         }
 
     def asHtmlErrorMessageForField(fieldKey: String): Option[ErrorMessage] =
@@ -84,7 +84,7 @@ trait RichFormErrorsSupport {
       formErrors
         .find(_.key == fieldKey)
         .map { formError =>
-          ErrorMessage(content = contentConstructor(errorMessage(formError)))
+          ErrorMessage(content = contentConstructor(errorMessage(formError))).withDefaultStringsTranslated
         }
 
     private def errorMessage(formError: FormError) = messages(formError.message, formError.args: _*)

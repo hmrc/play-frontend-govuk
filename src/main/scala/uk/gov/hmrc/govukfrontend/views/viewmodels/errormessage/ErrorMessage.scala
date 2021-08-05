@@ -17,6 +17,7 @@
 package uk.gov.hmrc.govukfrontend.views.viewmodels
 package errormessage
 
+import play.api.i18n.Messages
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
 import uk.gov.hmrc.govukfrontend.views.viewmodels.content.{Content, Empty}
@@ -25,11 +26,24 @@ final case class ErrorMessage(
   id: Option[String] = None,
   classes: String = "",
   attributes: Map[String, String] = Map.empty,
-  visuallyHiddenText: Option[String] = Some("Error"),
+  visuallyHiddenText: Option[String] = Some(ErrorMessage.defaultVisuallyHiddenText),
   content: Content = Empty
 )
 
 object ErrorMessage {
+  
+  val defaultVisuallyHiddenText = "Error"
+
+  implicit class I18nErrorMessage(errorMessage: ErrorMessage)(implicit messages: Messages) {
+    def withDefaultStringsTranslated: ErrorMessage = 
+      errorMessage.visuallyHiddenText match {
+        case Some(`defaultVisuallyHiddenText`) =>
+          errorMessage.copy(
+            visuallyHiddenText = Some(messages("govukErrorMessage.visuallyHiddenText"))
+          )
+        case _ => errorMessage
+      }
+  }
 
   // Converts the ambiguously documented visuallyHiddenText parameter from govuk-frontend to the correct type.
   // The original govuk-frontend implementation will show any truthy value as the hidden text when visuallyHiddenText is set to it.
