@@ -18,6 +18,9 @@ package uk.gov.hmrc.govukfrontend.views.implicits
 
 import play.api.data.Field
 import play.api.i18n.Messages
+import uk.gov.hmrc.govukfrontend.views.Aliases.Text
+import uk.gov.hmrc.govukfrontend.views.viewmodels.content.Content
+import uk.gov.hmrc.govukfrontend.views.viewmodels.fieldset.{Fieldset, Legend}
 import uk.gov.hmrc.govukfrontend.views.viewmodels.radios.{RadioItem, Radios}
 
 trait RichRadiosSupport {
@@ -39,6 +42,21 @@ trait RichRadiosSupport {
         .withIdPrefix(field)
         .withItemsChecked(field)
         .withTextErrorMessage(field)
+
+    def withLegendAsPageHeading(legend: Content): Radios =
+      radios.copy(
+        fieldset = Some(
+          Fieldset(
+            legend = Some(
+              Legend(
+                content = legend,
+                classes = "govuk-fieldset__legend--l",
+                isPageHeading = true
+              )
+            )
+          )
+        )
+      )
 
     /**
       * Extension method to allow a Play form Field to be used to add certain parameters in a Radios, as per
