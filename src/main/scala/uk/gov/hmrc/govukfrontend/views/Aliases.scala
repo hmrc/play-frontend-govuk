@@ -195,6 +195,9 @@ trait Aliases {
 
   type CookieBanner = viewmodels.cookiebanner.CookieBanner
   val CookieBanner = viewmodels.cookiebanner.CookieBanner
+
+  type Apple = viewmodels.apple.Apple
+  val Apple = viewmodels.apple.Apple
 }
 
 object Aliases extends Aliases
