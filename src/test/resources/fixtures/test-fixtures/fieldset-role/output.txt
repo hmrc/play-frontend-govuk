@@ -1,2 +1,0 @@
-<fieldset class="govuk-fieldset" role="group">
-</fieldset>
