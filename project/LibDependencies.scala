@@ -4,15 +4,10 @@ import play.core.PlayVersion
 import play.sbt.PlayImport.ws
 
 object LibDependencies {
-  lazy val govukFrontendVersion = "3.13.0"
 
   val compile: Seq[ModuleID] = dependencies(
     shared = Seq(
-      "org.joda"           % "joda-convert"    % "2.0.2",
-      "org.webjars.npm"    % "govuk-frontend"  % govukFrontendVersion,
-      "org.scalaj"        %% "scalaj-http"     % "2.4.2",
-      "com.typesafe.play" %% "play"            % PlayVersion.current,
-      "com.typesafe.play" %% "filters-helpers" % PlayVersion.current
+      "com.typesafe.play" %% "play"            % PlayVersion.current
     )
   )
 
