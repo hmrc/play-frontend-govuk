@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.0] - 2021-09-24
+
+### Changed
+
+- Empty version of library released. Please see history for reference. All references to `play-frontend-govuk` should be
+updated to use `play-frontend-hmrc`
+
 ## [1.0.0] - 2021-08-13
 
 ### Changed
