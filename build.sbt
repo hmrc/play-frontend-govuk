@@ -1,12 +1,11 @@
 val libName         = "play-frontend-govuk"
 
 lazy val root = Project(libName, file("."))
-  .enablePlugins(PlayScala, SbtTwirl, BuildInfoPlugin)
+  .enablePlugins(PlayScala, BuildInfoPlugin)
   .disablePlugins(PlayLayoutPlugin)
-  .configs(IntegrationTest)
   .settings(
     name := libName,
-    majorVersion := 1,
+    majorVersion := 2,
     scalaVersion := "2.12.13",
     libraryDependencies ++= Seq(),
     PlayCrossCompilation.playCrossCompilationSettings,
