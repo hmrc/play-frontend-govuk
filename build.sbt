@@ -15,7 +15,6 @@ lazy val root = Project(libName, file("."))
     majorVersion := 1,
     scalaVersion := "2.12.13",
     libraryDependencies ++= LibDependencies(),
-    TwirlKeys.templateImports := templateImports,
     PlayCrossCompilation.playCrossCompilationSettings,
     isPublicArtefact := true,
     // ***************
@@ -41,20 +40,5 @@ lazy val root = Project(libName, file("."))
   )
   .settings(inConfig(IntegrationTest)(Defaults.itSettings): _*)
   .settings(inConfig(IntegrationTest)(org.scalafmt.sbt.ScalafmtPlugin.scalafmtConfigSettings))
-
-lazy val templateImports: Seq[String] = Seq(
-  "_root_.play.twirl.api.Html",
-  "_root_.play.twirl.api.HtmlFormat",
-  "_root_.play.twirl.api.JavaScript",
-  "_root_.play.twirl.api.Txt",
-  "_root_.play.twirl.api.Xml",
-  "play.api.mvc._",
-  "play.api.data._",
-  "play.api.i18n._",
-  "play.api.templates.PlayMagic._",
-  "uk.gov.hmrc.govukfrontend.views.html.components.implicits._",
-  "_root_.play.twirl.api.TwirlFeatureImports._",
-  "_root_.play.twirl.api.TwirlHelperImports._"
-)
 
 lazy val generateUnitTestFixtures = taskKey[Unit]("Generate unit test fixtures")
