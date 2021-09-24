@@ -11,8 +11,6 @@ addSbtPlugin(
   }
 )
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-twirl" % "1.4.2")
-
 addSbtPlugin("uk.gov.hmrc" % "sbt-auto-build" % "3.0.0")
 
 addSbtPlugin("uk.gov.hmrc" % "sbt-artifactory" % "1.17.0")
@@ -20,5 +18,3 @@ addSbtPlugin("uk.gov.hmrc" % "sbt-artifactory" % "1.17.0")
 addSbtPlugin("uk.gov.hmrc" % "sbt-play-cross-compilation" % "2.2.0")
 
 addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.7.0")
-
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.0")
