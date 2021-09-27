@@ -1,1 +1,0 @@
-govukErrorMessage.visuallyHiddenText = Gwall
